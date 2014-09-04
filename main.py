@@ -10,10 +10,10 @@ from threading import Thread
 dbCon = sqlite3.connect('db/numbers.db')
 cur = dbCon.cursor()
 
-seconds_between_sending = 60 # Wait 60 seconds between sending messages
+seconds_between_sending = 1800
 
-twilio_authkey = "f8d3153b6c2b6e8b2595f3cb3179ef93"
-twilio_account_sid = "AC8f2693864aae63cd82dbd90f844e525b"
+twilio_authkey = ""
+twilio_account_sid = ""
 
 client = twilio.rest.TwilioRestClient(twilio_account_sid, twilio_authkey)
 
@@ -58,11 +58,10 @@ def loop():
   for user in users:
     if user.last_message_sent == 0:
       # We haven't sent them a message before! Lets send them a greeting!
-      user.send_sms("Greetings %s, you have been signed up to CatFacts! Enjoy your FREE catfacts hourly!" % user.name)
+      user.send_sms("Greetings %s, you have been signed up to CatFacts! Enjoy your FREE catfacts half-hourly updates! :DD" % user.name)
     print("Sending an SMS to %s" % user.name)
     user.send_sms("CatFact: " + catfact)
 
 if __name__ == "__main__":
   while True:
-    print("Looping")
     loop()
